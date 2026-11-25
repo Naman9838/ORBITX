@@ -3,7 +3,7 @@ import Loginform from "./components/Loginform";
 import Signupcard from "./components/Signupcard";
 import Home from "./Home";
 import ProtectedRoute from "./ProtectedRoute";
-import Discover from "./Pages/Discover";
+import Discover from "./pages/Discover";
 import PlanetDetail from "./pages/PlanetDetail";
 import Watch from "./pages/Watch";
 
