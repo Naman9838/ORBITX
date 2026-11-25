@@ -1,0 +1,191 @@
+
+@import "tailwindcss";
+
+/* =========================================
+   GLOBAL ORBITX STYLES
+========================================= */
+
+@layer base {
+  html,
+  body,
+  #root {
+    @apply min-h-screen bg-[#03050B];
+  }
+
+  body {
+    @apply m-0;
+  }
+}
+
+/* =========================================
+   GOLD SHIMMER
+========================================= */
+
+@keyframes goldShimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+
+  50% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+/* =========================================
+   STAR TWINKLE
+========================================= */
+
+@keyframes star-twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.7);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.6);
+  }
+}
+
+.animate-star-twinkle {
+  animation-name: star-twinkle;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+/* =========================================
+   SIGNUP PAGE SPACE ANIMATIONS
+========================================= */
+
+/* Planet floating */
+
+@keyframes signup-planet-float {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  50% {
+    transform: translate(-50%, -51%) scale(1.025);
+  }
+}
+
+/* Orbital ring rotation */
+
+@keyframes signup-orbit-rotate {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Satellite movement */
+
+@keyframes signup-satellite-travel {
+  from {
+    transform: rotate(0deg) translateX(clamp(250px, 38vw, 450px)) rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg) translateX(clamp(250px, 38vw, 450px)) rotate(-360deg);
+  }
+}
+
+/* Background star movement */
+
+@keyframes signup-stars-drift {
+  0% {
+    transform: translateY(0);
+    opacity: 0.35;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translateY(-25px);
+    opacity: 0.35;
+  }
+}
+
+/* Atmospheric glow breathing */
+
+@keyframes signup-atmosphere-breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.96);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+/* =========================================
+   SIGNUP ANIMATION CLASSES
+========================================= */
+
+.signup-planet {
+  animation: signup-planet-float 9s ease-in-out infinite;
+}
+
+.signup-orbit {
+  animation: signup-orbit-rotate 45s linear infinite;
+}
+
+.signup-satellite {
+  animation: signup-satellite-travel 24s linear infinite;
+}
+
+.signup-stars {
+  background-image:
+    radial-gradient(2px 2px at 20px 30px, #ffffffaa 99%, transparent),
+    radial-gradient(1px 1px at 90px 80px, #ffffff88 99%, transparent),
+    radial-gradient(2px 2px at 160px 140px, #ffffff99 99%, transparent),
+    radial-gradient(1px 1px at 220px 40px, #ffffff88 99%, transparent),
+    radial-gradient(1px 1px at 260px 200px, #ffffff77 99%, transparent);
+
+  background-size: 280px 280px;
+  animation: signup-stars-drift 18s ease-in-out infinite;
+}
+
+.signup-atmosphere {
+  animation: signup-atmosphere-breathe 14s ease-in-out infinite;
+}
+
+/* =========================================
+   ACCESSIBILITY: REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .signup-planet,
+  .signup-orbit,
+  .signup-satellite,
+  .signup-stars,
+  .signup-atmosphere,
+  .animate-star-twinkle {
+    animation: none;
+  }
+}
+.signup-atmosphere {
+  background: radial-gradient(
+    circle,
+    rgba(40, 165, 210, 0.28) 0%,
+    rgba(20, 100, 160, 0.16) 40%,
+    transparent 75%
+  );
+
+  filter: blur(65px);
+  animation: signup-atmosphere-breathe 10s ease-in-out infinite;
+}
