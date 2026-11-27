@@ -2,7 +2,12 @@
 import { useState } from "react";
 import { auth } from "../services/firebase";
 import Logincard from "./Logincard";
-import { signInWithEmailAndPassword } from "firebase/auth";
+
+import {
+  signInWithEmailAndPassword,
+  signInAnonymously
+} from "firebase/auth";
+
 import { useNavigate } from "react-router-dom";
 
 const Loginform = () => {
@@ -15,6 +20,7 @@ const Loginform = () => {
 
   const loginBg = "/images/orbitx-login-bg.png";
 
+  // Existing email/password login
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
@@ -59,6 +65,30 @@ const Loginform = () => {
       });
   };
 
+  // New guest login function
+  const handleGuestLogin = async () => {
+    setError("");
+    setLoading(true);
+
+    try {
+      const userCredential = await signInAnonymously(auth);
+
+      console.log("Guest login successful:", userCredential.user);
+
+      navigate("/home");
+    } catch (error) {
+      console.error("Guest login failed:", error);
+
+      if (error.code === "auth/operation-not-allowed") {
+        setError("Guest access is not enabled. Please try again later.");
+      } else {
+        setError("Unable to enter as guest. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div
       className="relative flex min-h-screen items-center justify-center bg-cover bg-center bg-no-repeat px-5 py-10"
@@ -71,7 +101,6 @@ const Loginform = () => {
       <div className="relative z-10 w-full max-w-md">
         <Logincard>
           <form onSubmit={handleSubmit}>
-
             <div className="flex flex-col gap-5">
 
               {/* Email */}
@@ -128,6 +157,16 @@ const Loginform = () => {
                 className="mt-2 w-full rounded-xl bg-gradient-to-r from-amber-300 to-amber-500 px-5 py-3.5 font-semibold text-slate-950 shadow-lg shadow-amber-500/20 transition duration-300 hover:brightness-110 hover:shadow-amber-400/30 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {loading ? "Logging in..." : "Log in"}
+              </button>
+
+              {/* Guest login button */}
+              <button
+                type="button"
+                onClick={handleGuestLogin}
+                disabled={loading}
+                className="w-full rounded-xl border border-white/30 bg-slate-900/70 px-5 py-3.5 font-semibold text-white transition duration-300 hover:border-amber-300 hover:text-amber-300 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {loading ? "Please wait..." : "Explore as Guest"}
               </button>
 
               {/* Divider */}

@@ -12,6 +12,9 @@ const Home = () => {
     const navigate = useNavigate();
     const [activePanel, setActivePanel] = useState("earth");
 
+    const currentUser = auth.currentUser;
+    const isGuest = currentUser?.isAnonymous === true;
+
     const handleLogout = async () => {
         try {
             await signOut(auth);
@@ -23,6 +26,7 @@ const Home = () => {
 
     return (
         <main className="relative min-h-screen overflow-hidden bg-[#03060d] text-white">
+
             {/* Space background */}
             <div
                 className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-40"
@@ -36,7 +40,8 @@ const Home = () => {
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#03060d]/30 via-[#03060d]/60 to-[#03060d]" />
 
             {/* Navigation */}
-            <header className="relative z-10 flex items-center justify-between border-b border-white/10 px-6 py-5 sm:px-10">
+            <header className="relative z-10 flex flex-wrap items-center justify-between gap-4 border-b border-white/10 px-6 py-5 sm:px-10">
+
                 <div className="text-xl font-black tracking-[0.22em]">
                     ORBIT<span className="text-cyan-400">X</span>
                     <span className="mt-1 block text-[9px] font-medium tracking-[0.32em] text-slate-400">
@@ -44,23 +49,35 @@ const Home = () => {
                     </span>
                 </div>
 
-                <button
-                    onClick={() => navigate("/discover")}
-                    className="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-5 py-2 text-xs font-semibold tracking-wider text-cyan-300 transition hover:bg-cyan-400 hover:text-black"
-                >
-                    DISCOVER ↗
-                </button>
+                <div className="flex flex-wrap items-center gap-3">
 
-                <button
-                    onClick={handleLogout}
-                    className="rounded-full border border-white/20 px-4 py-2 text-xs tracking-wider transition hover:border-red-400 hover:text-red-300"
-                >
-                    SIGN OUT ↗
-                </button>
+                    {/* Guest mode indicator */}
+                    {isGuest && (
+                        <span className="rounded-full border border-amber-400/30 bg-amber-400/10 px-4 py-2 text-[10px] font-bold tracking-widest text-amber-300">
+                            GUEST MODE
+                        </span>
+                    )}
+
+                    <button
+                        onClick={() => navigate("/discover")}
+                        className="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-5 py-2 text-xs font-semibold tracking-wider text-cyan-300 transition hover:bg-cyan-400 hover:text-black"
+                    >
+                        DISCOVER ↗
+                    </button>
+
+                    <button
+                        onClick={handleLogout}
+                        className="rounded-full border border-white/20 px-4 py-2 text-xs tracking-wider transition hover:border-red-400 hover:text-red-300"
+                    >
+                        {isGuest ? "EXIT GUEST MODE ↗" : "SIGN OUT ↗"}
+                    </button>
+
+                </div>
             </header>
 
             {/* Hero section */}
             <section className="relative z-10 mx-auto grid max-w-[1600px] items-center gap-10 px-6 py-16 sm:px-10 lg:min-h-[70vh] lg:grid-cols-2">
+
                 <div>
                     <div className="mb-8 flex items-center gap-3">
                         <span className="h-2 w-2 animate-pulse rounded-full bg-cyan-400" />
@@ -159,7 +176,7 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* NASA Discovery Explorer — separate full-width section */}
+            {/* Discovery Explorer */}
             <section
                 id="discoveries"
                 className="relative z-10 border-t border-white/10 bg-[#03060d]/90 px-6 py-12 sm:px-10"
@@ -168,6 +185,7 @@ const Home = () => {
                     <DiscoveryExplorer destination={activePanel} />
                 </div>
             </section>
+
         </main>
     );
 };
